@@ -23,14 +23,14 @@ const intro = magpieViews.view_generator("intro", {
   trials: 1,
   name: 'intro',
   // If you use JavaScripts Template String `I am a Template String`, you can use HTML <></> and javascript ${} inside
-  text: `This is a sample introduction view.
+  title:"Magpie Mental Rotation",
+  text: `Thank you for participating in this mental rotation experiment.
             <br />
             <br />
-            The introduction view welcomes the participant and gives general information
-            about the experiment. You are in the <strong>${coin}</strong> group.
+            This experiment is about rotating objects in your head to find out if they are congruent or not.
             <br />
             <br />
-            This is a minimal experiment with one forced choice view. It can serve as a starting point for programming your own experiment.`,
+            This is a minimal experiment with multiple key press views.`,
   buttonText: 'begin the experiment'
 });
 
@@ -39,10 +39,18 @@ const instructions = magpieViews.view_generator("instructions", {
   trials: 1,
   name: 'instructions',
   title: 'General Instructions',
-  text: `This is a sample instructions view.
-            <br />
-            <br />
-            Tell your participants what they are to do here.`,
+  text: `Look at the images presented to you in the following trials. 
+  <br />
+  If you think both objects are the same, then press the f key. Else press the j key.
+  `,
+  buttonText: 'go to trials'
+});
+
+const instructions_practice = magpieViews.view_generator("instructions", {
+  trials: 1,
+  name: 'instructions_practice',
+  title: 'Main Tasks',
+  text: `The 12 Practice Trials are now over, the main tasks start now`,
   buttonText: 'go to trials'
 });
 
@@ -102,19 +110,22 @@ const thanks = magpieViews.view_generator("thanks", {
 */
 
 
-// Here, we initialize a normal forced_choice view
-const forced_choice_2A = magpieViews.view_generator("forced_choice", {
-  // This will use all trials specified in `data`, you can user a smaller value (for testing), but not a larger value
-  trials: trial_info.forced_choice.length,
-  // name should be identical to the variable name
-  name: 'forced_choice_2A',
-  data: trial_info.forced_choice,
-  // you can add custom functions at different stages through a view's life cycle
-  // hook: {
-  //     after_response_enabled: check_response
-  // }
-});
+
 
 // There are many more templates available:
 // forced_choice, slider_rating, dropdown_choice, testbox_input, rating_scale, image_selection, sentence_choice,
 // key_press, self_paced_reading and self_paced_reading_rating_scale
+
+const key_pressed_2A = magpieViews.view_generator("key_press", {
+  trials: trial_info.key_pressed.length - 12,
+  name: 'key_pressed_2A',
+  data: _.shuffle(trial_info.key_pressed),
+  pause: 250
+});
+
+const key_pressed_trial = magpieViews.view_generator("key_press", {
+  trials: 12,
+  name: 'key_pressed_trial',
+  data: _.shuffle(trial_info.key_pressed),
+  pause: 250
+});
